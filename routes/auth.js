@@ -15,7 +15,7 @@ function createToken(data, config){
             user: data._id
          }, config.params.secret);  
          
-         return token
+         return token;
 }
 module.exports = function (config) {  
     router.get('/', function (req, res, next) {
@@ -25,7 +25,8 @@ module.exports = function (config) {
     })
 
     router.post('/login', function (req, res, next) {
-        console.log("backend login is firing")
+        console.log("backend login is firing with data >>", req.body)
+
         if (req.body.username) {
             console.log("this is req data >>", req.body)
             UserModel.findOne({ username: req.body.username }, function (err, user) {
@@ -48,6 +49,9 @@ module.exports = function (config) {
                     console.log("nothing found - auth express backend >> ", err)
                 }
             })
+        } else {
+            console.log("please enter login values");
+            next("please enter login values")
         }
     })
 
